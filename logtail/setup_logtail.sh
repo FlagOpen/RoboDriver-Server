@@ -1,7 +1,7 @@
 #!/bin/bash
-sudo mkdir -p /opt/wanx_studio/
-sudo chown -R $USER:$USER /opt/wanx_studio/
-sudo chmod -R 777 /opt/wanx_studio/
+sudo mkdir -p /opt/RoboDriver-log/
+sudo chown -R $USER:$USER /opt/RoboDriver-log/
+sudo chmod -R 777 /opt/RoboDriver-log/
 
 sudo mkdir -p /etc/ilogtail/users
 sudo touch /etc/ilogtail/users/1560822971114422
