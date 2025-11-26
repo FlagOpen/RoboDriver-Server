@@ -188,7 +188,18 @@ echo "步骤6: 部署代码..."
 
 # 后端代码（检查目录是否存在）
 BACKEND_DIR="/opt/RoboDriver-Server"
-CODE_DIR=$(cd "$(dirname "$(dirname "$SCRIPT_DIR")")" || die "无法获取 CODE_DIR（SCRIPT_DIR的祖父目录）")
+PARENT_DIR=$(dirname "$SCRIPT_DIR")
+if [ -z "$PARENT_DIR" ] || [ "$PARENT_DIR" = "/" ] || [ "$PARENT_DIR" = "." ]; then
+    die "脚本目录 $SCRIPT_DIR 没有父目录，无法获取祖父目录"
+fi
+echo "父目录（PARENT_DIR）：$PARENT_DIR"  # 应输出：/home/liuyou/RoboDriver-Server/setup
+
+# 第二步：获取祖父目录（2级上级，即 CODE_DIR）
+CODE_DIR=$(dirname "$PARENT_DIR")
+if [ -z "$CODE_DIR" ] || [ "$CODE_DIR" = "/" ] || [ "$CODE_DIR" = "." ]; then
+    die "父目录 $PARENT_DIR 没有上级目录，无法获取祖父目录"
+fi
+echo "祖父目录（CODE_DIR）：$CODE_DIR"
 # 检查本地源代码文件夹是否存在（核心前提：无外网时必须本地有代码）
 if [ ! -d "$CODE_DIR" ]; then
     die "本地代码文件夹 $CODE_DIR 不存在！请确保该路径下有完整的后端代码，再执行脚本"
