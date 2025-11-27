@@ -3,7 +3,7 @@
 # 定义变量
 CONTAINER_NAME="baai_flask_server"  # 替换为你的容器名
 CURRENT_USER=$(whoami)
-REPO_DIR="/home/${CURRENT_USER}/WanX-Studio-Server"
+REPO_DIR="/opt/RoboDriver-Server"
 BRANCH="main"  # 默认分支名（可修改为你的分支）
 
 # 错误处理函数

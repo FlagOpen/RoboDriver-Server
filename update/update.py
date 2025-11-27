@@ -71,8 +71,8 @@ def show_update_notification(local_tag, remote_tag, script_path):
             messagebox.showerror("错误", "更新脚本执行失败，请手动更新")
 
 # 示例：比较本地和远程版本
-owner = "BAAI-EI-DATA"
-repo = "WanX-Studio-Server"
+owner = "FlagOpen"
+repo = "RoboDriver-Server"
 update_script = "update.sh"  # 你的更新脚本路径
 
 try:

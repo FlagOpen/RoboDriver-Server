@@ -182,6 +182,29 @@ sudo mkdir -p /opt/RoboDriver-log/
 sudo chown -R "$USER":"$USER" /opt/RoboDriver-log/
 sudo chmod -R 777 /opt/RoboDriver-log/
 
+# ====================== 步骤5.1: 安装 ffmpeg 和 portaudio19-dev ======================
+echo "步骤5.1: 检查并安装 ffmpeg 和 portaudio19-dev..."
+
+# 安装 ffmpeg
+if ! command -v ffmpeg &>/dev/null; then
+    echo "正在安装 ffmpeg..."
+    sudo apt update && sudo apt install -y ffmpeg || die "ffmpeg 安装失败"
+    echo "ffmpeg 安装完成，版本信息："
+    ffmpeg -version | head -n 1
+else
+    echo "ffmpeg 已安装，版本信息："
+    ffmpeg -version | head -n 1
+fi
+
+# 安装 portaudio19-dev（音频开发库）
+if ! dpkg -l | grep -q "portaudio19-dev"; then
+    echo "正在安装 portaudio19-dev..."
+    sudo apt install -y portaudio19-dev || die "portaudio19-dev 安装失败"
+    echo "portaudio19-dev 安装完成"
+else
+    echo "portaudio19-dev 已安装，跳过"
+fi
+
 
 # ====================== 步骤6: 部署代码 ======================
 echo "步骤6: 部署代码..."
