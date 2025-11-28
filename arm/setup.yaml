@@ -19,7 +19,7 @@ is_collect_upload_at_sametime: False
 
 upload_type_list: [ks3, nas]
 upload_type: ks3
-upload_time: '20:00'
+upload_time: '00:00'
 
 
 nas_cache_path_release: /传输路径/release/cache
