@@ -254,7 +254,7 @@ fi
 echo "步骤7: 加载 Docker 镜像..."
 
 for img in "${DOCKER_IMAGES[@]}"; do
-    img_name="baai-server-x86"
+    img_name="baai-flask-server"
     load_image="n"  # 默认跳过
 
     # 询问是否加载本地镜像
