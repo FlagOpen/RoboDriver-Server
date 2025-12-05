@@ -285,19 +285,19 @@ for img in "${DOCKER_IMAGES[@]}"; do
                     read -p "是否从 Docker Hub 拉取镜像 ${img_name}？(y/n) " pull_image
                     case "$pull_image" in
                         y|Y)
-                            echo "正在拉取镜像 liuyou1103/wanx-server-arm:tag ..."
-                            if sudo docker pull "liuyou1103/wanx-server-arm:tag"; then
+                            echo "正在拉取镜像 liuyou1103/wanx-server-arm:latest ..."
+                            if sudo docker pull "liuyou1103/wanx-server-arm:latest"; then
                                 echo "成功拉取镜像 liuyou1103/wanx-server-arm:tag"
                                 # 重命名为本地需要的镜像名
                                 echo "正在重命名为 ${img_name}:latest ..."
-                                if sudo docker tag "liuyou1103/wanx-server-arm:tag" "${img_name}:latest"; then
+                                if sudo docker tag "liuyou1103/wanx-server-arm:latest" "${img_name}:latest"; then
                                     echo "成功重命名为 ${img_name}:latest"
                                 else
                                     echo "错误：重命名镜像失败"
                                     exit 1
                                 fi
                             else
-                                echo "错误：拉取镜像 liuyou1103/wanx-server-arm:tag 失败"
+                                echo "错误：拉取镜像 liuyou1103/wanx-server-arm:latest 失败"
                                 exit 1
                             fi
                             break 2  # 跳出两层循环
