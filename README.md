@@ -61,12 +61,20 @@ http://localhost:5805/hmi
    conda activate robodriverserver
    ```
 2. 进入对应架构的服务目录：
-   ```bash
-   # x86架构
-   cd RoboDriver-Server/x86/
-   # 或 arm架构
-   cd RoboDriver-Server/arm/
-   ```
+   <div align="center">
+     <button onclick="showX86Steps()" style="padding: 8px 16px; margin: 0 4px; cursor: pointer; background: #4299e1; color: white; border: none; border-radius: 4px;">x86 架构</button>
+     <button onclick="showArmSteps()" style="padding: 8px 16px; margin: 0 4px; cursor: pointer; background: #38b2ac; color: white; border: none; border-radius: 4px;">arm 架构</button>
+   </div>
+   <div id="x86Steps" style="margin-top: 16px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f7fafc;">
+     ```bash
+     cd RoboDriver-Server/x86/  # x86架构专属目录
+     ```
+   </div>
+   <div id="armSteps" style="margin-top: 16px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f7fafc; display: none;">
+     ```bash
+     cd RoboDriver-Server/arm/  # arm架构专属目录
+     ```
+   </div>
 3. 安装依赖并启动服务：
    ```bash
    pip install -r requirements.txt  # 安装Python依赖
@@ -81,13 +89,22 @@ http://localhost:5805/hmi
    docker stop robodriver_server && docker rm robodriver_server  # 停止并删除容器
    ```
 2. 进入对应架构目录，启动调试容器：
-   ```bash
-   # x86架构
-   cd RoboDriver-Server/x86/
-   # 或 arm架构
-   cd RoboDriver-Server/arm/
-   bash debug_server_docker.sh  # 启动调试容器并进入
-   ```
+   <div align="center">
+     <button onclick="showX86DebugSteps()" style="padding: 8px 16px; margin: 0 4px; cursor: pointer; background: #4299e1; color: white; border: none; border-radius: 4px;">x86 架构</button>
+     <button onclick="showArmDebugSteps()" style="padding: 8px 16px; margin: 0 4px; cursor: pointer; background: #38b2ac; color: white; border: none; border-radius: 4px;">arm 架构</button>
+   </div>
+   <div id="x86DebugSteps" style="margin-top: 16px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f7fafc;">
+     ```bash
+     cd RoboDriver-Server/x86/  # x86架构专属目录
+     bash debug_server_docker.sh  # 启动调试容器并进入
+     ```
+   </div>
+   <div id="armDebugSteps" style="margin-top: 16px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f7fafc; display: none;">
+     ```bash
+     cd RoboDriver-Server/arm/  # arm架构专属目录
+     bash debug_server_docker.sh  # 启动调试容器并进入
+     ```
+   </div>
 3. 容器内启动服务并查看日志：
    ```bash
    python operating_platform_server_test.py  # 查看服务实时输出
@@ -133,4 +150,26 @@ upload_time: '20:00'  # 定时上传时间（仅is_upload=True时生效）
    sudo chmod -R 777 /home/$CURRENT_USER/DoRobot/dataset/
    ```
 
----
+<script>
+// 切换架构步骤显示
+function showX86Steps() {
+  document.getElementById('x86Steps').style.display = 'block';
+  document.getElementById('armSteps').style.display = 'none';
+}
+
+function showArmSteps() {
+  document.getElementById('x86Steps').style.display = 'none';
+  document.getElementById('armSteps').style.display = 'block';
+}
+
+// 切换调试步骤显示
+function showX86DebugSteps() {
+  document.getElementById('x86DebugSteps').style.display = 'block';
+  document.getElementById('armDebugSteps').style.display = 'none';
+}
+
+function showArmDebugSteps() {
+  document.getElementById('x86DebugSteps').style.display = 'none';
+  document.getElementById('armDebugSteps').style.display = 'block';
+}
+</script>
