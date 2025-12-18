@@ -63,9 +63,9 @@ http://localhost:5805/hmi
 2. 进入对应架构的服务目录：
    ```bash
    # x86架构
-   cd RoboDriver-Server/x86/
+   cd /opt/RoboDriver-Server/x86/
    # 或 arm架构
-   cd RoboDriver-Server/arm/
+   cd /opt/RoboDriver-Server/arm/
    ```
 3. 安装依赖并启动服务：
    ```bash
@@ -83,9 +83,9 @@ http://localhost:5805/hmi
 2. 进入对应架构目录，启动调试容器：
    ```bash
    # x86架构
-   cd RoboDriver-Server/x86/
+   cd /opt/RoboDriver-Server/x86/
    # 或 arm架构
-   cd RoboDriver-Server/arm/
+   cd /opt/RoboDriver-Server/arm/
    ```
    ```
    bash debug_server_docker.sh  # 启动调试容器并进入
@@ -97,6 +97,8 @@ http://localhost:5805/hmi
 4. 调试完成后退出并重启正式服务：
    ```bash
    exit  # 退出调试容器（按提示选择N删除容器）
+   ```
+   ```
    bash start_server_docker.sh  # 重启正式服务容器
    ```
 5. 日志查看路径：`/opt/RoboDriver-log/log/server/`
