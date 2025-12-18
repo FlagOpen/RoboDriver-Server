@@ -284,14 +284,10 @@ fi
 # ====================== 步骤8: 部署代码（覆盖现有目录） ======================
 echo -e "\n======================"
 echo "步骤8: 部署代码（覆盖现有目录）..."
-# 获取代码目录（祖父目录）
-PARENT_DIR=$(dirname "$SCRIPT_DIR")
-if [ -z "$PARENT_DIR" ] || [ "$PARENT_DIR" = "/" ] || [ "$PARENT_DIR" = "." ]; then
-    die "脚本目录 $SCRIPT_DIR 没有父目录，无法获取祖父目录"
-fi
-CODE_DIR=$(dirname "$PARENT_DIR")
+# 获取代码源目录（脚本所在目录的父目录）
+CODE_DIR=$(dirname "$SCRIPT_DIR")
 if [ -z "$CODE_DIR" ] || [ "$CODE_DIR" = "/" ] || [ "$CODE_DIR" = "." ]; then
-    die "父目录 $PARENT_DIR 没有上级目录，无法获取祖父目录"
+    die "无法获取有效代码源目录！请确保脚本在项目正确目录下执行"
 fi
 echo "代码源目录：$CODE_DIR"
 # 检查本地代码是否存在
