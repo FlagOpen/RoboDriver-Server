@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ====================== 配置参数（可修改） ======================
-CONTAINER_NAME="baai_flask_server"      # 容器名称
+CONTAINER_NAME="robodriver_server"      # 容器名称
 IMAGE_NAME="baai-flask-server"  # 镜像名称
 PORTS="--network host"                  # 使用主机网络
 ENCODE="-e PYTHONIOENCODING=utf-8"      # 编码设置
@@ -13,9 +13,9 @@ CURRENT_USER=$(whoami)
 
 # 动态构建卷挂载路径
 VOLUMES=(
-    "-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/robot/dataset/"
+    "-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/robot/DoRobot/dataset/"
     "-v /opt/RoboDriver-Server/arm/:/app/code/"
-    "-v /opt/RoboDriver-log/:/home/machine/"
+    "-v /opt/RoboDriver-log/:/opt/RoboDriver-log/"
 )
 
 # ====================== 逻辑部分 ======================

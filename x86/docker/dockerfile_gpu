@@ -50,11 +50,8 @@ RUN conda env update --name base --file environment.yml && \
     conda clean -afy
 
 # 安装 Python 依赖（使用国内镜像加速）
-COPY robot_uploader-1.0.0-py3-none-any.whl /tmp/
 COPY requirements.txt .
-RUN pip install --no-cache-dir \
-    /tmp/robot_uploader-1.0.0-py3-none-any.whl && \
-    pip install --no-cache-dir -r requirements.txt \
+RUN pip install --no-cache-dir -r requirements.txt \
     -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 环境变量配置

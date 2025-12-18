@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # 定义变量
-CONTAINER_NAME="baai_flask_server"  # 替换为你的容器名
+CONTAINER_NAME1="robodriver_server" 
+CONTAINER_NAME2="baai_flask_server"  
 CURRENT_USER=$(whoami)
 REPO_DIR="/opt/RoboDriver-Server"
 BRANCH="main"  # 默认分支名（可修改为你的分支）
