@@ -66,7 +66,3 @@ sudo docker ps -a --filter "name=${CONTAINER_NAME}" --format 'table {{.Names}}\t
 # 检查日志（最后10行）
 echo -e "\n容器日志（最近10行）："
 sudo docker logs --tail 10 ${CONTAINER_NAME}
-
-# 提示如何进入容器
-echo -e "\n进入容器命令："
-echo "sudo docker exec -it ${CONTAINER_NAME} bash"
