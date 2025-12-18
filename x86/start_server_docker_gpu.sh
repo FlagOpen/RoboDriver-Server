@@ -13,7 +13,7 @@ RESTART_POLICY="--restart unless-stopped" # 重启策略
 CURRENT_USER=$(whoami)
 
 # 动态构建卷挂载路径
-VOLUMES="-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/robot/DoRobot/dataset/"
+VOLUMES="-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/${CURRENT_USER}/DoRobot/dataset/"
 VOLUMES2="-v /opt/RoboDriver-Server/x86/:/app/code/"
 VOLUMES3="-v /opt/RoboDriver-log/:/opt/RoboDriver-log/"
 

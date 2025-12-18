@@ -1,0 +1,10 @@
+robot_data_uploader/__init__.py,sha256=iCuH3RYOSy_96EBBQuqGJ23JSRxCDIDHoUt3VZ8ocXE,119
+robot_data_uploader/__main__.py,sha256=iMJjhAbXZek1WZc7igcRZOX34PQM9q55d9Ge0N8Hn-w,147
+robot_data_uploader/collect_uploader.py,sha256=G0c8mCWrcfcE--WORRiVQgkouTJGDkp8Pkuu4m7mt5o,62121
+robot_data_uploader/config.py,sha256=06-45sFXkX4PEWHAR7wQs5VFVMZi8WgYjsBfymfDVOA,3622
+robot_data_uploader/uploader.py,sha256=ikWkslP_akVQoTauKdWrYVrWwe2sOityxuP0cV6WQs4,59748
+robot_uploader_collect-1.0.0.dist-info/METADATA,sha256=0KIbGXEgV1WBHjVNlWo36EHzd7u8mm-OxolsbQvBvoo,711
+robot_uploader_collect-1.0.0.dist-info/WHEEL,sha256=ewwEueio1C2XeHTvT17n8dZUJgOvyCWCt0WVNLClP9o,92
+robot_uploader_collect-1.0.0.dist-info/entry_points.txt,sha256=VC7qBBeByxdTHrUZZwldoWt7NLejHCs5uzGQLujW20M,78
+robot_uploader_collect-1.0.0.dist-info/top_level.txt,sha256=Ni_drLziR5CI8AEZ95WAhGu8X0f7XsPuhZ-Ql3vFwN8,20
+robot_uploader_collect-1.0.0.dist-info/RECORD,,
