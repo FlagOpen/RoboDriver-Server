@@ -11,16 +11,12 @@
 具身一体化平台：https://ei2rmd.baai.ac.cn
 
 ### 🚀 核心部署流程
-#### 1. 克隆源码仓库
+#### 1. 克隆源码仓库,执行一键安装脚本
 ```bash
 git clone https://github.com/FlagOpen/RoboDriver-Server.git
-```
-
-#### 2. 进入开发者专属安装目录, 执行一键安装脚本 （自动完成依赖安装、代码部署、服务配置、Logtail 日志采集配置）：
-```bash
-cd /opt/RoboDriver-Server/
+cd ./RoboDriver-Server/
 git checkout baai
-cd /opt/RoboDriver-Server/setup/
+cd ./setup/
 bash ./setup.bash
 ```
 
