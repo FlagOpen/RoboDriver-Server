@@ -13,7 +13,7 @@ RESTART_POLICY="--restart unless-stopped" # 重启策略
 CURRENT_USER=$(whoami)
 
 # 动态构建卷挂载路径
-VOLUMES="-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/robot/DoRobot/dataset/"
+VOLUMES="-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/${CURRENT_USER}/DoRobot/dataset/"
 VOLUMES2="-v /opt/RoboDriver-Server/x86/:/app/code/"
 VOLUMES3="-v /opt/RoboDriver-log/:/opt/RoboDriver-log/"
 
@@ -65,7 +65,3 @@ sudo docker ps -a --filter "name=${CONTAINER_NAME}" --format 'table {{.Names}}\t
 # 检查日志（最后10行）
 echo -e "\n容器日志（最近10行）："
 sudo docker logs --tail 10 ${CONTAINER_NAME}
-
-# 提示如何进入容器
-echo -e "\n进入容器命令："
-echo "sudo docker exec -it ${CONTAINER_NAME} bash"

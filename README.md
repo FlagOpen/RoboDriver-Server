@@ -3,7 +3,7 @@
   <img src="ui/robodriver_struct_1.png" alt="RoboDriver 架构图" width="70%"/>
 </p>
 
-为快速部署并使用 RoboDriver-Server，以下为**智源研究院内部开发者** 提供专属部署指南，按需选择操作即可高效完成配置，**外部使用者**在main分支：
+为快速部署并使用 RoboDriver-Server，以下为**智源研究院内部开发者** 提供专属部署指南，**外部使用者**请切换到main分支，按需选择操作即可高效完成配置：
 
 ---
 
@@ -18,9 +18,9 @@ git clone https://github.com/FlagOpen/RoboDriver-Server.git
 
 #### 2. 进入开发者专属安装目录, 执行一键安装脚本 （自动完成依赖安装、代码部署、服务配置、Logtail 日志采集配置）：
 ```bash
-cd RoboDriver-Server/
+cd /opt/RoboDriver-Server/
 git checkout baai
-cd RoboDriver-Server/setup/
+cd /opt/RoboDriver-Server/setup/
 bash ./setup.bash
 ```
 

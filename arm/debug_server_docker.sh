@@ -13,7 +13,7 @@ CURRENT_USER=$(whoami)
 
 # 动态构建卷挂载路径
 VOLUMES=(
-    "-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/robot/DoRobot/dataset/"
+    "-v /home/${CURRENT_USER}/DoRobot/dataset/:/home/${CURRENT_USER}/DoRobot/dataset/"
     "-v /opt/RoboDriver-Server/arm/:/app/code/"
     "-v /opt/RoboDriver-log/:/opt/RoboDriver-log/"
 )
