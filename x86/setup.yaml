@@ -14,7 +14,7 @@ platform_server_ip_demo: https://roboxstudio.baai.ac.cn/api
 is_upload: True
 upload_immadiately_gpu: False
 is_update_machine_information: True
-is_collect_upload_at_sametime: True
+is_collect_upload_at_sametime: False
 
 upload_type_list: [ks3, nas]
 upload_type: ks3
