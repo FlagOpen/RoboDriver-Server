@@ -47,7 +47,7 @@ bash setup.bash
 #### 3. 访问采集平台
 安装完成后，通过以下地址直接访问本地采集平台：
 ```
-http://localhost:5805/hmi
+http://localhost:5805/hmi/
 ```
 
 ### 🛠️ 补充操作指南
