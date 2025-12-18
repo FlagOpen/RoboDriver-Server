@@ -62,6 +62,8 @@ http://localhost:5805/hmi/
    ```bash
    # x86架构
    cd /opt/RoboDriver-Server/x86/
+   ```
+   ```
    # 或 arm架构
    cd /opt/RoboDriver-Server/arm/
    ```
@@ -82,6 +84,8 @@ http://localhost:5805/hmi/
    ```bash
    # x86架构
    cd /opt/RoboDriver-Server/x86/
+   ```
+   ```
    # 或 arm架构
    cd /opt/RoboDriver-Server/arm/
    ```
