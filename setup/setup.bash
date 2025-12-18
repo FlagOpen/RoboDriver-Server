@@ -137,9 +137,14 @@ fi
 # ====================== 核心优化4: 无需确认，直接使用当前用户名 ======================
 CURRENT_USER=$(whoami)
 echo -e "\n======================"
-echo "步骤2: 自动获取当前用户名 - $CURRENT_USER（无需手动确认）"
+echo "步骤1: 自动获取当前用户名 - $CURRENT_USER（无需手动确认）"
 
-# ====================== 选择是否安装 Docker ======================
+# ====================== 步骤2: 网络配置 ======================
+echo -e "\n======================"
+echo "步骤2: 请手动配置网络（如使用 nmcli 或编辑 /etc/netplan/），确保优先使用 国际 网络"
+read -p "按回车键继续..."
+
+# ====================== 步骤3: 选择是否安装 Docker ======================
 echo -e "\n======================"
 while true; do
     read -p "是否需要安装 Docker？（后续镜像拉取、服务容器运行依赖Docker，输入 y/n）: " INSTALL_DOCKER
@@ -153,15 +158,10 @@ while true; do
     esac
 done
 
-# ====================== 步骤1: 网络配置 ======================
-echo -e "\n======================"
-echo "步骤1: 请手动配置网络（如使用 nmcli 或编辑 /etc/netplan/），确保优先使用 国际 网络"
-read -p "按回车键继续..."
-
-# ====================== 步骤3: 安装 Docker（根据用户选择执行） ======================
+# ====================== 步骤4: 安装 Docker（根据用户选择执行） ======================
 if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
     echo -e "\n======================"
-    echo "步骤3: 检查并安装 Docker..."
+    echo "步骤4: 检查并安装 Docker..."
 
     # 检查是否已安装 Docker
     if command -v docker &>/dev/null; then
@@ -221,12 +221,12 @@ if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
     fi
 else
     echo -e "\n======================"
-    echo "步骤3: 您选择不安装 Docker，跳过 Docker 相关配置"
+    echo "步骤4: 您选择不安装 Docker，跳过 Docker 相关配置"
 fi
 
-# ====================== 步骤4: 安装 Git ======================
+# ====================== 步骤5: 安装 Git ======================
 echo -e "\n======================"
-echo "步骤4: 检查并安装 Git..."
+echo "步骤5: 检查并安装 Git..."
 if ! command -v git &>/dev/null; then
     sudo apt install -y git || die "Git 安装失败"
     echo "Git 安装完成"
@@ -234,9 +234,9 @@ else
     echo "Git 已安装，跳过"
 fi
 
-# ====================== 步骤5: 安装并配置 Nginx ======================
+# ====================== 步骤6: 安装并配置 Nginx ======================
 echo -e "\n======================"
-echo "步骤5: 检查并安装 Nginx..."
+echo "步骤6: 检查并安装 Nginx..."
 if ! command -v nginx &>/dev/null; then
     sudo apt install -y nginx || die "Nginx 安装失败"
     echo "Nginx 安装完成"
@@ -269,9 +269,9 @@ sudo mkdir -p /opt/RoboDriver-log/
 sudo chown -R "$USER":"$USER" /opt/RoboDriver-log/
 sudo chmod -R 777 /opt/RoboDriver-log/
 
-# ====================== 步骤5.1: 安装 ffmpeg 和 portaudio19-dev ======================
+# ====================== 步骤7: 安装 ffmpeg 和 portaudio19-dev ======================
 echo -e "\n======================"
-echo "步骤5.1: 检查并安装 ffmpeg 和 portaudio19-dev..."
+echo "步骤7: 检查并安装 ffmpeg 和 portaudio19-dev..."
 
 # 安装 ffmpeg
 if ! command -v ffmpeg &>/dev/null; then
@@ -293,9 +293,9 @@ else
     echo "portaudio19-dev 已安装，跳过"
 fi
 
-# ====================== 步骤6: 部署代码 ======================
+# ====================== 步骤8: 部署代码（强制复制，覆盖现有目录） ======================
 echo -e "\n======================"
-echo "步骤6: 部署代码..."
+echo "步骤8: 部署代码（强制复制，覆盖现有目录）..."
 
 # 获取代码目录（祖父目录）
 PARENT_DIR=$(dirname "$SCRIPT_DIR")
@@ -313,24 +313,27 @@ if [ ! -d "$CODE_DIR" ]; then
     die "本地代码文件夹 $CODE_DIR 不存在！请确保该路径下有完整的后端代码"
 fi
 
-# 拷贝代码到目标目录
-if [ ! -d "$BACKEND_DIR" ]; then
-    sudo mkdir -p /opt || die "无法创建 /opt 目录（权限不足）"
-    echo "正在将本地代码从 $CODE_DIR 拷贝到 $BACKEND_DIR..."
-    sudo cp -a "$CODE_DIR/." "$BACKEND_DIR/" || die "拷贝代码失败"
-    sudo chown -R $USER:$USER "$BACKEND_DIR" || die "设置目录所有者失败"
-    sudo chmod -R 777 "$BACKEND_DIR" || die "设置目录权限失败"
-    echo "代码拷贝完成！目标目录：$BACKEND_DIR"
-else
-    sudo chown -R $USER:$USER "$BACKEND_DIR" || die "设置目录所有者失败"
-    sudo chmod -R 777 "$BACKEND_DIR" || die "设置目录权限失败"
-    echo "后端目录 $BACKEND_DIR 已存在，跳过拷贝，权限已更新"
+# 强制删除目标目录（如果存在），确保完全覆盖
+if [ -d "$BACKEND_DIR" ]; then
+    echo "目标目录 $BACKEND_DIR 已存在，正在强制删除..."
+    sudo rm -rf "$BACKEND_DIR" || die "删除现有目录 $BACKEND_DIR 失败（权限不足）"
 fi
+
+# 重新创建目标目录并拷贝代码
+sudo mkdir -p /opt || die "无法创建 /opt 目录（权限不足）"
+echo "正在将本地代码从 $CODE_DIR 强制复制到 $BACKEND_DIR..."
+sudo cp -a "$CODE_DIR/." "$BACKEND_DIR/" || die "拷贝代码失败（目标目录无写入权限或源文件损坏）"
+
+# 设置目录权限
+sudo chown -R $USER:$USER "$BACKEND_DIR" || die "设置目录所有者失败"
+sudo chmod -R 777 "$BACKEND_DIR" || die "设置目录权限失败"
+
+echo "代码强制复制完成！目标目录：$BACKEND_DIR（已覆盖原有内容）"
 
 # ====================== 核心优化5: 仅从Docker Hub拉取镜像（移除本地加载逻辑） ======================
 if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
     echo -e "\n======================"
-    echo "步骤7: 从 Docker Hub 拉取镜像（仅支持Hub拉取，不支持本地镜像）..."
+    echo "步骤9: 从 Docker Hub 拉取镜像（仅支持Hub拉取，不支持本地镜像）..."
 
     img_name="baai-flask-server"
     echo "正在拉取镜像 ${DOCKER_HUB_IMAGE} ..."
@@ -349,18 +352,18 @@ if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
     echo "镜像拉取并命名完成！"
 else
     echo -e "\n======================"
-    echo "步骤7: 您选择不安装 Docker，跳过镜像拉取步骤"
+    echo "步骤9: 您选择不安装 Docker，跳过镜像拉取步骤"
 fi
 
-# ====================== 步骤8: 配置免密 sudo ======================
+# ====================== 步骤10: 配置免密 sudo ======================
 echo -e "\n======================"
-echo "步骤8: 配置免密 sudo..."
+echo "步骤10: 配置免密 sudo..."
 echo "$CURRENT_USER ALL=(ALL) NOPASSWD: /sbin/ip, /sbin/modprobe, /usr/sbin/ethtool" | sudo tee "/etc/sudoers.d/baai_nopasswd_$CURRENT_USER" >/dev/null
 
-# ====================== 步骤9: 测试启动服务（仅Docker模式） ======================
+# ====================== 步骤11: 测试启动服务（仅Docker模式） ======================
 if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
     echo -e "\n======================"
-    echo "步骤9: 测试启动服务（运行版本：$device_server_type，上传方式：$upload_type）..."
+    echo "步骤11: 测试启动服务（运行版本：$device_server_type，上传方式：$upload_type）..."
 
     if [ -d "$BACKEND_DIR/$BACKEND_ARCH_DIR" ]; then
         cd "$BACKEND_DIR/$BACKEND_ARCH_DIR" || die "无法进入后端服务目录"
@@ -396,13 +399,13 @@ if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
     fi
 else
     echo -e "\n======================"
-    echo "步骤9: 您选择不安装 Docker，跳过服务容器启动步骤"
+    echo "步骤11: 您选择不安装 Docker，跳过服务容器启动步骤"
     echo "提示：如需启动服务，请手动部署非Docker版本的运行环境"
 fi
 
-# ====================== 步骤10: 开机后操作 ======================
+# ====================== 步骤12: 开机后操作 ======================
 echo -e "\n======================"
-echo "步骤10: 开机后操作..."
+echo "步骤12: 开机后操作..."
 # 输出采集平台访问地址
 echo "采集平台正式访问地址: http://localhost:5805/hmi"
 echo "访问平台网址即可"
