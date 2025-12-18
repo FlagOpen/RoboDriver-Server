@@ -39,8 +39,6 @@ bash setup.bash
 │   └── operating_platform_server_test.py # 服务启动入口
 ├── logtail/            # 日志相关配置
 ├── setup/              # 安装脚本目录
-│   ├── user/           # 用户专属脚本（当前操作目录）
-│   └── developer/      # 开发者专属脚本
 ├── ui/                 # 前端相关资源
 ├── update/             # 版本更新工具
 └── x86/                # x86架构相关文件（结构同arm目录）
