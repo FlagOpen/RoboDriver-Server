@@ -290,23 +290,32 @@ if [ -z "$CODE_DIR" ] || [ "$CODE_DIR" = "/" ] || [ "$CODE_DIR" = "." ]; then
     die "无法获取有效代码源目录！请确保脚本在项目正确目录下执行"
 fi
 echo "代码源目录：$CODE_DIR"
-# 检查本地代码是否存在
-if [ ! -d "$CODE_DIR" ]; then
-    die "本地代码文件夹 $CODE_DIR 不存在！请确保该路径下有完整的后端代码"
+# 新增：判断脚本是否已在目标目录下运行（无需拷贝）
+if [ "$CODE_DIR" = "$BACKEND_DIR" ]; then
+    echo "✅ 检测到代码源目录 $CODE_DIR 与目标目录 $BACKEND_DIR 一致"
+    echo "无需拷贝代码，直接使用当前目录作为部署目录"
+    # 确保目录权限正确（避免权限问题）
+    sudo chown -R $USER:$USER "$BACKEND_DIR" || die "设置目录所有者失败"
+    sudo chmod -R 777 "$BACKEND_DIR" || die "设置目录权限失败"
+else
+    # 检查本地代码是否存在
+    if [ ! -d "$CODE_DIR" ]; then
+        die "本地代码文件夹 $CODE_DIR 不存在！请确保该路径下有完整的后端代码"
+    fi
+    # 强制删除目标目录（如果存在），确保完全覆盖
+    if [ -d "$BACKEND_DIR" ]; then
+        echo "目标目录 $BACKEND_DIR 已存在，正在删除..."
+        sudo rm -rf "$BACKEND_DIR" || die "删除现有目录 $BACKEND_DIR 失败（权限不足）"
+    fi
+    # 重新创建目标目录并拷贝代码
+    sudo mkdir -p /opt || die "无法创建 /opt 目录（权限不足）"
+    echo "正在将本地代码从 $CODE_DIR 复制到 $BACKEND_DIR..."
+    sudo cp -a "$CODE_DIR/." "$BACKEND_DIR/" || die "拷贝代码失败（目标目录无写入权限或源文件损坏）"
+    # 设置目录权限
+    sudo chown -R $USER:$USER "$BACKEND_DIR" || die "设置目录所有者失败"
+    sudo chmod -R 777 "$BACKEND_DIR" || die "设置目录权限失败"
+    echo "代码拷入完成！目标目录：$BACKEND_DIR"
 fi
-# 强制删除目标目录（如果存在），确保完全覆盖
-if [ -d "$BACKEND_DIR" ]; then
-    echo "目标目录 $BACKEND_DIR 已存在，正在删除..."
-    sudo rm -rf "$BACKEND_DIR" || die "删除现有目录 $BACKEND_DIR 失败（权限不足）"
-fi
-# 重新创建目标目录并拷贝代码
-sudo mkdir -p /opt || die "无法创建 /opt 目录（权限不足）"
-echo "正在将本地代码从 $CODE_DIR 复制到 $BACKEND_DIR..."
-sudo cp -a "$CODE_DIR/." "$BACKEND_DIR/" || die "拷贝代码失败（目标目录无写入权限或源文件损坏）"
-# 设置目录权限
-sudo chown -R $USER:$USER "$BACKEND_DIR" || die "设置目录所有者失败"
-sudo chmod -R 777 "$BACKEND_DIR" || die "设置目录权限失败"
-echo "代码拷入完成！目标目录：$BACKEND_DIR"
 
 # ====================== 从Docker Hub拉取镜像 ======================
 if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then

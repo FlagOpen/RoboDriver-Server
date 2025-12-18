@@ -125,7 +125,7 @@ upload_time: '20:00'  # 定时上传时间（仅is_upload=True时生效）
 
 ### ❌ 常见问题排查
 1. 提示 `127.0.0.1:8088` 连接失败：RoboDriver-Server 服务未启动，需重新执行启动命令；
-2. 访问 `http://localhost:5805/hmi` 失败：重启 Nginx 服务，命令：
+2. 访问 `http://localhost:5805/hmi/` 失败：重启 Nginx 服务，命令：
    ```bash
    sudo systemctl restart nginx
    ```
