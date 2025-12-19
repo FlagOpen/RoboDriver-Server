@@ -551,9 +551,6 @@ if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
         echo "警告: 后端服务目录 $BACKEND_DIR/$BACKEND_ARCH_DIR 不存在，跳过服务启动"
     fi
 else
-    echo "警告: 后端服务目录 $BACKEND_DIR/$BACKEND_ARCH_DIR 不存在，跳过服务启动"
-fi
-else
     echo "您选择不安装 Docker，需手动启动服务（开发者模式）..."
     if [ -d "$BACKEND_DIR/$BACKEND_ARCH_DIR" ]; then
         cd "$BACKEND_DIR/$BACKEND_ARCH_DIR" || die "无法进入后端服务目录 $BACKEND_DIR/$BACKEND_ARCH_DIR"
@@ -577,6 +574,11 @@ else
         sed -i "s/^robot_type:.*/robot_type: $robot_type/" "$SETUP_FILE" || die "更新 robot_type 配置失败"
         sed -i "s/^device_server_type:.*/device_server_type: $device_server_type/" "$SETUP_FILE" || die "更新 device_server_type 配置失败"
         sed -i "s/^upload_type:.*/upload_type: $upload_type/" "$SETUP_FILE" || die "更新 upload_type 配置失败"
+    else
+        echo "警告: 后端服务目录 $BACKEND_DIR/$BACKEND_ARCH_DIR 不存在，跳过服务启动"
+    fi
+fi
+
 # ====================== 步骤11: 开机后操作（优化提示信息，补充关键信息） ======================
 echo -e "\n======================"
 echo "步骤11: 开机后操作指引（开发者模式）..."
