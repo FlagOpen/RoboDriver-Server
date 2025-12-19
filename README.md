@@ -37,7 +37,7 @@ bash ./setup.bash
 - 本地采集平台：`http://localhost:5805/hmi`；
 
 ### 🛠️ 开发者补充操作指南
-#### （一）上传配置精细化调整
+#### （一）上传配置及gpu上传配置
 内部开发者可通过 `setup.yaml` 灵活配置上传规则，核心参数说明如下（含专属配置）：
 ```yaml
 # 机器人类型配置
@@ -56,6 +56,39 @@ upload_time: '20:00'  # 定时上传时间（仅is_upload=True时生效）
 # 数据集存储路径（自动同步当前用户名）
 device_data_path: /home/$CURRENT_USER/DoRobot/dataset/
 ```
+1. 当RoboDriver `use_video=False` 时，采集的相机数据将以图片形式存储；触发上传操作后，系统会自动将图片编码为视频文件，并存入指定的 `video` 目录。
+
+2. 若需实现**采集、编码、上传同步完成**（实时处理流程），需同时满足以下所有条件：
+   - **硬件要求**：主机必须配备 NVIDIA 显卡（需支持 NVENC 视频编码功能，主流 Kepler 架构及以上显卡均支持）；
+   - **依赖安装**：需在主机安装 NVIDIA 容器运行时依赖 `nvidia-container-runtime`；
+     - 安装方式（Ubuntu 系统示例）：
+       1. 配置 NVIDIA 软件源：
+          ```bash
+          distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+          curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.list | sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
+          ```
+       2. 更新并安装：
+          ```bash
+          sudo apt update && sudo apt install -y nvidia-container-runtime
+          ```
+       3. 重启 Docker 服务使配置生效：
+          ```bash
+          sudo systemctl restart docker
+          ```
+   - **配置要求**：在配置文件中设置 `upload_immadiately_gpu: True` **并且** `is_collect_upload_at_sametime: True`；
+   - **启动方式**：通过 `start_server_docker_gpu.sh` 脚本启动容器；
+   - **关键配置修正**：`start_server_docker_gpu.sh` 脚本中存在 NVIDIA 编码库的挂载配置，需根据主机实际安装的 NVIDIA 驱动版本修改文件路径中的版本号：
+      - 原始配置示例：
+         ```bash
+         -v /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.535.230.02:/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 \
+         ```
+      - 修改说明：将路径中的 `535.230.02` 替换为主机实际的 NVIDIA 驱动对应版本号（需确保主机 `/usr/lib/x86_64-linux-gnu/` 目录下存在 `libnvidia-encode.so.XXX.XX` 格式的文件）；
+      - 版本查询方法：在主机终端执行命令 `nvidia-smi`，输出结果中「Driver Version」字段对应的数值即为需替换的版本号（例如驱动版本为 550.54.14，则替换为 `libnvidia-encode.so.550.54.14`）。
+
+      - **补充说明**
+      - 若未安装 `nvidia-container-runtime`，容器将无法识别主机 GPU 及挂载的编码库，同步处理流程会直接失效，需优先完成该依赖安装；
+      - 若未正确匹配 NVIDIA 驱动版本号，会导致容器内无法加载 `libnvidia-encode.so.1` 编码库，进而出现编码失败、程序报错或同步流程卡死；
+      - 若主机无 NVIDIA 显卡、不支持 NVENC 编码，或未按上述要求安装依赖/配置/启动，将无法使用同步处理流程，仅支持「先采集图片→触发上传时编码视频」的异步模式（即 `use_video=False` 对应的基础功能）；
 
 #### （二）上传方式切换说明
 1. 从 NAS 切换到 KS3：
