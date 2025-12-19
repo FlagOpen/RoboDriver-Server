@@ -115,11 +115,11 @@ device_data_path: /home/$CURRENT_USER/DoRobot/dataset/
    # 修改 upload_type 为 ks3，保存退出
    upload_type: ks3
    ```
-   # 重启服务（容器化部署）
+   #### 重启服务（容器化部署）
    docker restart robodriver_server
    ```
    ```
-   # 非容器化部署
+   #### 非容器化部署
    pkill -f operating_platform_server_test.py && python /opt/RoboDriver-Server/x86/operating_platform_server_test.py
    ```
 2. 从 KS3 切换到 NAS：
