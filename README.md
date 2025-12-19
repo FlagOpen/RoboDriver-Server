@@ -36,6 +36,23 @@ bash ./setup.bash
 #### 3. 访问专属平台地址
 - 本地采集平台：`http://localhost:5805/hmi`；
 
+### ❌ 开发者问题排查
+1. NAS 上传失败：检查设备是否接入内部局域网、NAS 权限是否过期，联系管理员重置权限；
+2. 数据集路径权限问题：重新设置目录权限（脚本已自动配置，异常时手动执行）：
+   ```bash
+   sudo chown -R $USER:$USER /home/$CURRENT_USER/DoRobot/dataset/
+   sudo chmod -R 777 /home/$CURRENT_USER/DoRobot/dataset/
+   ```
+3. 提示 `127.0.0.1:8088` 连接失败：RoboDriver-Server 服务未启动，需重新执行启动命令；
+4. 访问 `http://localhost:5805/hmi` 失败：重启 Nginx 服务，命令：
+   ```bash
+   sudo systemctl restart nginx
+   ```
+   or
+   ```
+   sudo systemctl start nginx
+   ```
+
 ### 🛠️ 开发者补充操作指南
 #### （一）上传配置及gpu上传配置
 内部开发者可通过 `setup.yaml` 灵活配置上传规则，核心参数说明如下（含专属配置）：
@@ -127,18 +144,5 @@ bash debug_server_docker.sh
 # 容器内启动服务（dev版本，开启调试日志）
 python operating_platform_server_test.py
 ```
-
-### ❌ 开发者问题排查
-1. NAS 上传失败：检查设备是否接入内部局域网、NAS 权限是否过期，联系管理员重置权限；
-2. 数据集路径权限问题：重新设置目录权限（脚本已自动配置，异常时手动执行）：
-   ```bash
-   sudo chown -R $USER:$USER /home/$CURRENT_USER/DoRobot/dataset/
-   sudo chmod -R 777 /home/$CURRENT_USER/DoRobot/dataset/
-   ```
-3. 提示 `127.0.0.1:8088` 连接失败：RoboDriver-Server 服务未启动，需重新执行启动命令；
-4. 访问 `http://localhost:5805/hmi` 失败：重启 Nginx 服务，命令：
-   ```bash
-   sudo systemctl restart nginx
-   ```
 
 ---

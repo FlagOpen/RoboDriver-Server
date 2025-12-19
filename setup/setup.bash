@@ -539,6 +539,18 @@ if [[ "$INSTALL_DOCKER" == "y" || "$INSTALL_DOCKER" == "Y" ]]; then
             echo "未发现 robodriver_server 容器，直接启动新容器..."
         fi
 
+        # 2. 检查并清理 baai_flask_server 容器
+        echo -e "\n检查是否存在名为 baai_flask_server 的容器..."
+        if sudo docker ps -a --filter "name=^/baai_flask_server$" --format "{{.Names}}" | grep -q "baai_flask_server"; then
+            echo "发现已有 baai_flask_server 容器，正在停止并删除..."
+            # 停止容器（忽略停止失败，避免容器已退出的情况）
+            sudo docker stop baai_flask_server || echo "容器 baai_flask_server 已停止"
+            # 删除容器（确保彻底清理）
+            sudo docker rm baai_flask_server || die "删除已有 baai_flask_server 容器失败，请手动执行：sudo docker rm baai_flask_server"
+        else
+            echo "未发现 baai_flask_server 容器"
+        fi
+
         # 创建数据集目录（避免启动时目录不存在）
         echo "正在创建数据集存储目录..."
         mkdir -p "/home/$CURRENT_USER/DoRobot/dataset/" || die "创建数据集目录 /home/$CURRENT_USER/DoRobot/dataset/ 失败"
