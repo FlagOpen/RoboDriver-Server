@@ -16,24 +16,24 @@
 git clone https://github.com/FlagOpen/RoboDriver-Server.git
 cd ./RoboDriver-Server/
 git checkout baai
-cd ./setup/
+cd ./setup
 bash ./setup.bash
 ```
 
-#### 3. 跟随脚本完成专属配置
+#### 2. 跟随脚本完成专属配置
 运行脚本后，按提示完成以下配置（其余流程自动执行）：
 1. 输入机器人类型（支持 aloha/pika/realman 等预定义类型，也可自定义）；
 2. 确认或输入当前用户名（将自动同步到数据集存储路径 `/home/$CURRENT_USER/DoRobot/dataset/`）；
 3. 选择是否安装 Docker：
    - 安装 Docker：可选择从本地加载镜像或者从 Docker Hub 拉取镜像，并启动 RoboDriver-Server 容器；
    - 不安装 Docker：需后续手动完成运行环境部署（详见下方「环境部署」步骤）；
-4. 选择运行版本（默认 release）；
-5. **开发者专属：选择数据上传方式**：
+4. **开发者专属：选择数据上传方式**：
    - `nas`：内部私有 NAS 存储；
    - `ks3`：对象存储；
    （注：上传方式选择后将自动写入 `setup.yaml`，后续可手动修改）。
+5. 默认运行production环境，如需切换成dev\stage环境等，联系开发人员。
 
-#### 6. 访问专属平台地址
+#### 3. 访问专属平台地址
 - 本地采集平台：`http://localhost:5805/hmi`；
 
 ### 🛠️ 开发者补充操作指南
@@ -64,8 +64,11 @@ device_data_path: /home/$CURRENT_USER/DoRobot/dataset/
    vi /opt/RoboDriver-Server/x86/setup.yaml
    # 修改 upload_type 为 ks3，保存退出
    upload_type: ks3
+   ```
    # 重启服务（容器化部署）
    docker restart robodriver_server
+   ```
+   ```
    # 非容器化部署
    pkill -f operating_platform_server_test.py && python /opt/RoboDriver-Server/x86/operating_platform_server_test.py
    ```
