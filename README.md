@@ -50,6 +50,22 @@ bash setup.bash
 http://localhost:5805/hmi/
 ```
 
+### ❌ 常见问题排查
+1. 若RoboDriver提示 `127.0.0.1:8088` 连接失败：RoboDriver-Server 服务未启动，需重新执行启动命令；
+2. 访问 `http://localhost:5805/hmi/` 失败：重启 Nginx 服务，命令：
+   ```bash
+   sudo systemctl restart nginx
+   ```
+   or
+   ```
+    sudo systemctl start nginx
+   ```
+3. 数据集路径权限问题：重新设置目录权限：
+   ```bash
+   sudo chown -R $USER:$USER /home/$CURRENT_USER/DoRobot/dataset/
+   sudo chmod -R 777 /home/$CURRENT_USER/DoRobot/dataset/
+   ```
+
 ### 🛠️ 补充操作指南
 #### （一）非 Docker 环境部署（未安装 Docker 时）
 若选择不安装 Docker，需手动部署运行环境，步骤如下：
@@ -155,18 +171,5 @@ upload_time: '20:00'  # 定时上传时间（仅is_upload=True时生效）
       - 若未安装 `nvidia-container-runtime`，容器将无法识别主机 GPU 及挂载的编码库，同步处理流程会直接失效，需优先完成该依赖安装；
       - 若未正确匹配 NVIDIA 驱动版本号，会导致容器内无法加载 `libnvidia-encode.so.1` 编码库，进而出现编码失败、程序报错或同步流程卡死；
       - 若主机无 NVIDIA 显卡、不支持 NVENC 编码，或未按上述要求安装依赖/配置/启动，将无法使用同步处理流程，仅支持「先采集图片→触发上传时编码视频」的异步模式（即 `use_video=False` 对应的基础功能）；
-
-
-### ❌ 常见问题排查
-1. 若RoboDriver提示 `127.0.0.1:8088` 连接失败：RoboDriver-Server 服务未启动，需重新执行启动命令；
-2. 访问 `http://localhost:5805/hmi/` 失败：重启 Nginx 服务，命令：
-   ```bash
-   sudo systemctl restart nginx
-   ```
-3. 数据集路径权限问题：重新设置目录权限：
-   ```bash
-   sudo chown -R $USER:$USER /home/$CURRENT_USER/DoRobot/dataset/
-   sudo chmod -R 777 /home/$CURRENT_USER/DoRobot/dataset/
-   ```
 
 ---
