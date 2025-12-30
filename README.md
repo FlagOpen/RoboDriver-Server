@@ -34,7 +34,7 @@ bash ./setup.bash
 5. 默认运行production环境，如需切换成dev\stage环境等，联系开发人员。
 
 #### 3. 访问专属平台地址
-- 本地采集平台：`http://localhost:5805/hmi`；
+- 本地采集平台：`http://localhost:5805/hmi/`；
 
 ### ❌ 开发者问题排查
 1. NAS 上传失败：检查设备是否接入内部局域网、NAS 权限是否过期，联系管理员重置权限；
@@ -44,7 +44,7 @@ bash ./setup.bash
    sudo chmod -R 777 /home/$CURRENT_USER/DoRobot/dataset/
    ```
 3. 提示 `127.0.0.1:8088` 连接失败：RoboDriver-Server 服务未启动，需重新执行启动命令；
-4. 访问 `http://localhost:5805/hmi` 失败：重启 Nginx 服务，命令：
+4. 访问 `http://localhost:5805/hmi/` 失败：重启 Nginx 服务，命令：
    ```bash
    sudo systemctl restart nginx
    ```
@@ -116,13 +116,14 @@ device_data_path: /home/$CURRENT_USER/DoRobot/dataset/
    upload_type: ks3
    ```
    #### 重启服务（容器化部署）
+   ```
    docker restart robodriver_server
    ```
-   ```
    #### 非容器化部署
+   ```
    pkill -f operating_platform_server_test.py && python /opt/RoboDriver-Server/x86/operating_platform_server_test.py
    ```
-2. 从 KS3 切换到 NAS：
+3. 从 KS3 切换到 NAS：
    ```bash
    vi /opt/RoboDriver-Server/x86/setup.yaml
    upload_type: nas
@@ -144,5 +145,6 @@ bash debug_server_docker.sh
 # 容器内启动服务（dev版本，开启调试日志）
 python operating_platform_server_test.py
 ```
+
 
 ---
