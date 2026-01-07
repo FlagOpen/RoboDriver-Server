@@ -16,7 +16,7 @@
 ```bash
 git clone https://github.com/FlagOpen/RoboDriver-Server.git
 cd ./RoboDriver-Server
-git checkout dev
+git checkout main
 cd ./setup
 bash setup.bash
 ```
