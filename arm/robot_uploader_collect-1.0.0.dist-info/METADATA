@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: robot-uploader-collect
+Version: 1.0.0
+Summary: 机器人数据上传工具,支持断点续传、进度显示和文件过滤
+Home-page: UNKNOWN
+Author: BAAI DataPlatform
+Author-email: dataplatform@baai.ac.cn
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: requests (>=2.26.0)
+Requires-Dist: ks3sdk (>=1.12.0)
+Requires-Dist: pyOpenSSL (>=20.0.1)
+Requires-Dist: tqdm (>=4.65.0)
+Requires-Dist: colorama (>=0.4.4)
+Requires-Dist: pyfiglet (>=0.8.post1)
+Requires-Dist: filechunkio (>=1.8)
+Requires-Dist: rich (>=13.9.4)
+
+UNKNOWN
+
