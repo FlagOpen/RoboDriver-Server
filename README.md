@@ -17,7 +17,7 @@ git clone https://github.com/FlagOpen/RoboDriver-Server.git
 cd ./RoboDriver-Server/
 git checkout baai
 cd ./setup
-bash ./setup.bash
+bash setup.bash
 ```
 
 #### 2. 跟随脚本完成专属配置
@@ -148,3 +148,4 @@ python operating_platform_server_test.py
 
 
 ---
+
