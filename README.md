@@ -78,7 +78,7 @@ device_data_path: /home/$CURRENT_USER/DoRobot/dataset/
 2. 若需实现**采集、编码、上传同步完成**（实时处理流程），需同时满足以下所有条件：
    - **硬件要求**：主机必须配备 NVIDIA 显卡（需支持 NVENC 视频编码功能，主流 Kepler 架构及以上显卡均支持）；
    - **依赖安装**：需在主机安装 NVIDIA 容器运行时依赖 `nvidia-container-runtime`；
-     - 安装方式（Ubuntu 系统示例）：
+     - 安装方式（Ubuntu 系统示例）,按实际情况安装：
        1. 配置 NVIDIA 软件源：
           ```bash
           distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
@@ -92,20 +92,19 @@ device_data_path: /home/$CURRENT_USER/DoRobot/dataset/
           ```bash
           sudo systemctl restart docker
           ```
-   - **配置要求**：在配置文件中设置 `upload_immadiately_gpu: True` **并且** `is_collect_upload_at_sametime: True`；
+   - **配置要求**：在配置文件 `setup.yaml`中设置 
+   `upload_immadiately_gpu: True` 
+   **并且** 
+   `is_collect_upload_at_sametime: True`；
+   - **关闭原本容器**：
+   ```
+   docker stop robodriver_server && docker rm robodriver_server
+   ```
    - **启动方式**：通过 `start_server_docker_gpu.sh` 脚本启动容器；
-   - **关键配置修正**：`start_server_docker_gpu.sh` 脚本中存在 NVIDIA 编码库的挂载配置，需根据主机实际安装的 NVIDIA 驱动版本修改文件路径中的版本号：
-      - 原始配置示例：
-         ```bash
-         -v /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.535.230.02:/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 \
-         ```
-      - 修改说明：将路径中的 `535.230.02` 替换为主机实际的 NVIDIA 驱动对应版本号（需确保主机 `/usr/lib/x86_64-linux-gnu/` 目录下存在 `libnvidia-encode.so.XXX.XX` 格式的文件）；
-      - 版本查询方法：在主机终端执行命令 `nvidia-smi`，输出结果中「Driver Version」字段对应的数值即为需替换的版本号（例如驱动版本为 550.54.14，则替换为 `libnvidia-encode.so.550.54.14`）。
 
       - **补充说明**
       - 若未安装 `nvidia-container-runtime`，容器将无法识别主机 GPU 及挂载的编码库，同步处理流程会直接失效，需优先完成该依赖安装；
-      - 若未正确匹配 NVIDIA 驱动版本号，会导致容器内无法加载 `libnvidia-encode.so.1` 编码库，进而出现编码失败、程序报错或同步流程卡死；
-      - 若主机无 NVIDIA 显卡、不支持 NVENC 编码，或未按上述要求安装依赖/配置/启动，将无法使用同步处理流程，仅支持「先采集图片→触发上传时编码视频」的异步模式（即 `use_video=False` 对应的基础功能）；
+      - 若主机无 NVIDIA 显卡、不支持 NVENC 编码，或未按上述要求安装依赖/配置/启动，将无法使用同步处理流程，仅支持「先采集图片→触发上传时编码视频」的异步模式；
 
 #### （二）上传方式切换说明
 1. 从 NAS 切换到 KS3：

@@ -48,7 +48,6 @@ else
         -e LANG=C.UTF-8 \
         -e LC_ALL=C.UTF-8 \
         -e NVIDIA_DRIVER_CAPABILITIES=all \
-        -v /usr/lib/x86_64-linux-gnu/libnvidia-encode.so.535.230.02:/usr/lib/x86_64-linux-gnu/libnvidia-encode.so.1 \
         ${ENCODE} \
         ${PRIVILEGED} \
         ${RESTART_POLICY} \
