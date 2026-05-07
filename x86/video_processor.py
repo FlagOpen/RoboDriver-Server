@@ -74,6 +74,7 @@ class VideoProcessor:
                 ("-pix_fmt", "yuv420p"),
                 ("-g", "5"),
                 ("-loglevel", "error"),
+                ("-y", ""),
             ])
             
             # 使用GPU编码(h264_nvenc)或CPU编码(libx264)
@@ -194,6 +195,8 @@ class VideoProcessor:
                 ("-g", "20"),
                 ("-crf", "23"),
                 ("-loglevel", "error"),
+                ("-y", ""),
+                
             ])
 
             ffmpeg_cmd = ["ffmpeg"] + [item for pair in ffmpeg_args.items() for item in pair] + [str(video_path)]
