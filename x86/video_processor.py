@@ -74,7 +74,6 @@ class VideoProcessor:
                 ("-pix_fmt", "yuv420p"),
                 ("-g", "5"),
                 ("-loglevel", "error"),
-                ("-y", ""),
             ])
             
             # 使用GPU编码(h264_nvenc)或CPU编码(libx264)
@@ -89,7 +88,7 @@ class VideoProcessor:
                     ("-crf", "18"),
                 ])
             
-            ffmpeg_cmd = ["ffmpeg"] + [item for pair in ffmpeg_args.items() for item in pair] + [str(video_path)]
+            ffmpeg_cmd = ["ffmpeg"] + [item for pair in ffmpeg_args.items() for item in pair] + ["-y", str(video_path)]
             print(f"[DEBUG] 执行FFmpeg命令: {' '.join(ffmpeg_cmd)}")
             
             result = subprocess.run(ffmpeg_cmd, check=True, capture_output=True, text=True)
@@ -195,10 +194,9 @@ class VideoProcessor:
                 ("-g", "20"),
                 ("-crf", "23"),
                 ("-loglevel", "error"),
-                ("-y", ""),
             ])
 
-            ffmpeg_cmd = ["ffmpeg"] + [item for pair in ffmpeg_args.items() for item in pair] + [str(video_path)]
+            ffmpeg_cmd = ["ffmpeg"] + [item for pair in ffmpeg_args.items() for item in pair] + ["-y", str(video_path)]
             print(f"[DEBUG] 执行FFmpeg命令: {' '.join(ffmpeg_cmd)}")
             
             result = subprocess.run(ffmpeg_cmd, check=True, capture_output=True, text=True)
