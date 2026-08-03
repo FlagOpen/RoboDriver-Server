@@ -5,10 +5,11 @@ device_server_port: 8088
 device_data_path: /home/robot/DoRobot/dataset/
 
 
-now_device_server_type: [release, demo]
+now_device_server_type: [release, demo, dev]
 device_server_type: release
 platform_server_ip_release: https://ei2rmd.baai.ac.cn/api
 platform_server_ip_demo: https://roboxstudio.baai.ac.cn/api
+platform_server_ip_dev: https://roboxstudio-test.baai.ac.cn/api
 
 
 is_upload: True
@@ -27,11 +28,17 @@ nas_data_path_release: /传输路径/release/collect_data
 nas_cache_path_demo: /传输路径/demo/cache
 nas_data_path_demo: /传输路径/demo/collect_data
 
+nas_cache_path_dev: /传输路径/ceshi/cache
+nas_data_path_dev: /传输路径/ceshi/collect_data
+
 
 machine_id_path_release: /opt/RoboDriver-log/config/machine_code
 machine_code_path_release: /opt/RoboDriver-log/config/unique_code
 
 machine_id_path_demo: /opt/RoboDriver-log/config/machine_code_demo
 machine_code_path_demo: /opt/RoboDriver-log/config/unique_code_demo
+
+machine_id_path_dev: /opt/RoboDriver-log/config/machine_code_dev
+machine_code_path_dev: /opt/RoboDriver-log/config/unique_code_dev
 
 log_path: /opt/RoboDriver-log/log/server/

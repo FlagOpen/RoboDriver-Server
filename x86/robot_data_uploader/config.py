@@ -32,7 +32,7 @@ ENVIRONMENT_CONFIG = {
         "UPLOAD_TARGET": "data"
     },
     "test": {
-        "SERVER_URL": "http://120.92.91.171",
+        "SERVER_URL": "https://roboxstudio-test.baai.ac.cn",
         "BUCKET_NAME": "baai-eai-datasets-test",
         "UPLOAD_TARGET": "data"
     },
