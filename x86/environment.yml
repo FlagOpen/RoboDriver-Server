@@ -1,10 +1,10 @@
-name: base
+name: baai_server
 channels:
   - conda-forge
   - defaults
 dependencies:
   # 系统依赖（精简版，避免重复安装已存在的包）
-  - python>=3.11
+  - python=3.11
   - pip
   - setuptools
   - wheel
